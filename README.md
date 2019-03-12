@@ -15,7 +15,7 @@
 
 # egg-define-router
 
-<!-- description -->
+Painless router definition for [eggjs](https://eggjs.org).
 
 ## Install
 
@@ -25,8 +25,12 @@ $ npm i egg-define-router
 
 ## Usage
 
+router.js
+
 ```js
-import egg_define_router from 'egg-define-router'
+const defineRouter = require('egg-define-router')
+
+module.exports = defineRouter()
 ```
 
 ## License
