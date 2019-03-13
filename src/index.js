@@ -14,12 +14,12 @@ const convertMethod = method => {
     : method
 }
 
-const getController = (app, name) => {
+const getController = (eggController, name) => {
   if (typeof name === 'function') {
     return name
   }
 
-  const controller = access(app, `controller.${name}`)
+  const controller = access(eggController, name)
   if (!controller) {
     throw error('CONTROLLER_NOT_FOUND', name)
   }
@@ -56,7 +56,10 @@ module.exports = ({
     throw error('INVALID_ROUTES')
   }
 
-  const apply = app => {
+  const apply = ({
+    router,
+    controller: eggController
+  }) => {
     const getMW = name => getMiddleware(name, middlewareRoot)
 
     forEach(routes, (
@@ -88,10 +91,10 @@ module.exports = ({
         controller
       } = route
 
-      app[convertMethod(method)](
+      router[convertMethod(method)](
         p,
         ...middlewares.map(getMW),
-        getController(app, controller)
+        getController(eggController, controller)
       )
     })
   }

@@ -1,11 +1,11 @@
 {
   "name": "egg-define-router",
   "version": "1.0.0",
-  "description": "egg-define-router",
+  "description": "Painless router definition for eggjs",
   "main": "src/index.js",
   "scripts": {
-    "test": "nyc ava --timeout=10s",
-    "test-no-report": "NODE_DEBUG=egg-define-router nyc ava --timeout=10s --verbose",
+    "test": "nyc ava --timeout=10s test/*.test.js",
+    "test-no-report": "NODE_DEBUG=egg-define-router nyc ava --timeout=10s --verbose test/*.test.js",
     "lint": "eslint .",
     "posttest": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
@@ -17,7 +17,9 @@
     "url": "git://github.com/kaelzhang/egg-define-router.git"
   },
   "keywords": [
-    "egg-define-router"
+    "egg-define-router",
+    "router",
+    "eggjs"
   ],
   "engines": {
     "node": ">= 6"
@@ -39,7 +41,7 @@
     "eslint-config-ostai": "^2.0.0",
     "eslint-plugin-import": "^2.16.0",
     "nyc": "^13.3.0",
-    "supertest": "^4.0.0"
+    "supertest": "^3.0.0"
   },
   "dependencies": {
     "err-object": "^4.0.2",
