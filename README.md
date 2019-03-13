@@ -46,7 +46,7 @@ And in router.js:
 
 ```js
 const defineRouter = require('egg-define-router')
-const path = require('path)
+const path = require('path')
 
 module.exports = defineRouter({
   routes: {
