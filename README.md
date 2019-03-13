@@ -29,7 +29,7 @@ $ npm i egg-define-router
 
 If we have an egg project with the following classic directory structure:
 
-```sh
+```
 egg-project
 |-- app
 |   |-- router.js

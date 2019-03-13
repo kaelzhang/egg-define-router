@@ -1,6 +1,6 @@
 {
   "name": "egg-define-router",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Painless router definition for eggjs",
   "main": "src/index.js",
   "scripts": {
