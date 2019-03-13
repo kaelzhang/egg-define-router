@@ -108,11 +108,21 @@ app.router.put(
 ## defineRouter({routes, middlewareRoot}, factory)
 
 - **routes** `Routes`
-- **middlewareRoot** `path` the search path for middleware name.
-- **factory** `Function(app, apply)`
-  - **apply** `Function(app)`
+- **middlewareRoot** `path` The search path for middleware name.
+- **factory** `?Function(app, applyRoutes)` helps to determine when and where to apply the routes. It is usefull to do extra things more than `routes`
+  - **applyRoutes** `Function(app)`
 
 Creates the router function which accept one argument `app`.
+
+The default `factory` is equivalent to:
+
+```js
+(app, applyRoutes) => {
+  // You can do something ahead of `applyRoutes(app)`
+  applyRoutes(app)
+  // Then do something else
+}
+```
 
 ### `routes`
 
