@@ -102,7 +102,21 @@ app.router.put(
 )
 ```
 
-#### Middleware
+#### Directly define middleware/controller functions
+
+```js
+routes: {
+  'DELETE /user': async ctx => {
+    await deleteUser(ctx.params.id)
+    ctx.body = 'deleted'
+  },
+
+  'PUT /comment': [
+    preventXSSMiddleware,
+    'comment.create'
+  ]
+}
+```
 
 ## defineRouter({routes, middlewareRoot})
 ## defineRouter({routes, middlewareRoot}, factory)
