@@ -4,16 +4,6 @@ const forEach = require('lodash.foreach')
 
 const error = require('./error')
 
-const convertMethod = method => {
-  method = method.toLowerCase()
-
-  return method === 'delete'
-    // ref:
-    // https://eggjs.org/en/basics/router.html#router-config-in-detail
-    ? 'del'
-    : method
-}
-
 const getController = (eggController, name) => {
   if (typeof name === 'function') {
     return name
@@ -42,7 +32,6 @@ const getMiddleware = (name, root) => {
     throw error('MIDDLEWARE_NOT_FOUND', name, err)
   }
 }
-
 
 module.exports = ({
   routes,
@@ -91,7 +80,7 @@ module.exports = ({
         controller
       } = route
 
-      router[convertMethod(method)](
+      router[method.toLowerCase()](
         p,
         ...middlewares.map(getMW),
         getController(eggController, controller)
