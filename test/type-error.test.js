@@ -1,21 +1,37 @@
 const test = require('ava')
 const defineRouter = require('..')
 
-test('invalid middleware root', async t => {
+const NOOP = () => {}
+const createMockEggApp = () => ({
+  controller: {
+    foo: {
+      bar: NOOP
+    }
+  },
+  router: {
+    get: NOOP
+  }
+})
+
+test('invalid middleware root', t => {
+  const app = createMockEggApp()
   t.throws(() => {
     defineRouter({
-      routes: {},
+      routes: {
+        'GET /bar': ['middleware', 'foo.bar']
+      },
       middlewareRoot: undefined
-    })
+    })(app)
   }, 'middlewareRoot must be a path string')
 })
 
 
-test('invalid routes', async t => {
+test('invalid routes', t => {
+  const app = createMockEggApp()
   t.throws(() => {
     defineRouter({
       routes: 'abc',
       middlewareRoot: '/path/to'
-    })
+    })(app)
   }, 'routes must be an object')
 })

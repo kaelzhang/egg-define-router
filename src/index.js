@@ -24,6 +24,10 @@ const getMiddleware = (name, root) => {
     return name
   }
 
+  if (typeof root !== 'string') {
+    throw error('INVALID_MIDDLEWARE_ROOT')
+  }
+
   const filepath = path.join(root, ...name.split(DELIMITER_MIDDLEWARE_PATH))
 
   try {
@@ -37,10 +41,6 @@ module.exports = ({
   routes,
   middlewareRoot
 } = {}, fn) => {
-  if (typeof middlewareRoot !== 'string') {
-    throw error('INVALID_MIDDLEWARE_ROOT')
-  }
-
   if (Object(routes) !== routes) {
     throw error('INVALID_ROUTES')
   }
