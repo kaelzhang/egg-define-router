@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const {Controller} = require('egg')
 
 module.exports = class FooController extends Controller {

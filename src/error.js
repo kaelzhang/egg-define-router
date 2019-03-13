@@ -18,7 +18,10 @@ E('CONTROLLER_NOT_FOUND', 'controller "%s" not found')
 E('MIDDLEWARE_NOT_FOUND', {
   message: 'middleware "%s" not found or errored. reason: %s'
 }, ({
-  code, message,
+  code,
+  preset: {
+    message
+  },
   args: [name, err]
 }) => {
   err.code = code

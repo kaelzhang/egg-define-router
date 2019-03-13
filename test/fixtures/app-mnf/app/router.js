@@ -4,7 +4,7 @@ const defineRouter = require('../../../..')
 
 module.exports = defineRouter({
   routes: {
-    'GET /foo': 'foo.baz'
+    'GET /foo': ['not-exists', 'foo.bar']
   },
   middlewareRoot: path.join(__dirname, 'middleware', 'custom')
 })
