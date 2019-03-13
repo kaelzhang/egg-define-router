@@ -1,6 +1,11 @@
 # babel dist
 /lib
 
+# egg-mock
+test/fixtures/*/logs
+test/fixtures/*/run
+test/fixtures/*/app/public
+
 # Numerous always-ignore extensions
 *.bak
 *.patch

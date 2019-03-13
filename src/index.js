@@ -38,8 +38,8 @@ const getMiddleware = (name, root) => {
 
   try {
     return require(filepath)
-  } catch (error) {
-    throw error('MIDDLEWARE_NOT_FOUND', name, error)
+  } catch (err) {
+    throw error('MIDDLEWARE_NOT_FOUND', name, err)
   }
 }
 
@@ -67,13 +67,12 @@ module.exports = ({
       key
     ) => {
       const splitted = key.split(/\s+/)
-      const [method, path] = splitted.length === 1
+      const [method, p] = splitted.length === 1
         ? ['GET', key]
         : splitted
 
       if (typeof route === 'string') {
         route = {controller: route}
-
       } else if (Array.isArray(route)) {
         const sliced = route.slice()
         const controller = sliced.pop()
@@ -90,7 +89,7 @@ module.exports = ({
       } = route
 
       app[convertMethod(method)](
-        path,
+        p,
         ...middlewares.map(getMW),
         getController(app, controller)
       )
