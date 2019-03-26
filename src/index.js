@@ -37,15 +37,14 @@ const getMiddleware = (name, root) => {
   }
 }
 
-module.exports = ({
-  routes,
+module.exports = (routes = {}, {
   middlewareRoot
-} = {}, fn) => {
+} = {}) => {
   if (Object(routes) !== routes) {
     throw error('INVALID_ROUTES')
   }
 
-  const apply = ({
+  return ({
     router,
     controller: eggController
   }) => {
@@ -86,14 +85,5 @@ module.exports = ({
         getController(eggController, controller)
       )
     })
-  }
-
-  return app => {
-    if (typeof fn !== 'function') {
-      apply(app)
-      return
-    }
-
-    fn(app, apply)
   }
 }

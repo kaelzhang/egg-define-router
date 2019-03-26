@@ -17,9 +17,8 @@ test('invalid middleware root', t => {
   const app = createMockEggApp()
   t.throws(() => {
     defineRouter({
-      routes: {
-        'GET /bar': ['middleware', 'foo.bar']
-      },
+      'GET /bar': ['middleware', 'foo.bar']
+    }, {
       middlewareRoot: undefined
     })(app)
   }, 'middlewareRoot must be a path string')
@@ -29,8 +28,7 @@ test('invalid middleware root', t => {
 test('invalid routes', t => {
   const app = createMockEggApp()
   t.throws(() => {
-    defineRouter({
-      routes: 'abc',
+    defineRouter('abc', {
       middlewareRoot: '/path/to'
     })(app)
   }, 'routes must be an object')

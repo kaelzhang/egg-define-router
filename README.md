@@ -49,13 +49,12 @@ const defineRouter = require('egg-define-router')
 const path = require('path')
 
 module.exports = defineRouter({
-  routes: {
-    // Equivalent to `'GET /foo/bar': 'foo.bar'`
-    // -> app.router.get('/foo/bar', app.controller.foo.bar)
-    '/foo/bar': 'foo.bar',
-    'POST /foo/bar': 'foo.bar',
-    'PUT /foo/baz': ['clean', 'foo.baz']
-  },
+  // Equivalent to `'GET /foo/bar': 'foo.bar'`
+  // -> app.router.get('/foo/bar', app.controller.foo.bar)
+  '/foo/bar': 'foo.bar',
+  'POST /foo/bar': 'foo.bar',
+  'PUT /foo/baz': ['clean', 'foo.baz']
+}, {
   middlewareRoot: path.join(__dirname, 'middleware', 'custom')
 })
 ```
@@ -65,7 +64,7 @@ module.exports = defineRouter({
 If we have the following `routes` definition:
 
 ```js
-routes: {
+{
   // If there is no method specified,
   // the method type defaults to `GET`
   '/foo/bar': 'foo.bar',
@@ -83,7 +82,7 @@ app.router.post('/foo/bar', app.controller.foo.bar)
 #### With custom middlewares
 
 ```js
-routes: {
+{
   'PUT /foo/baz': [
     // `clean` is the middleware name
     'clean',
@@ -105,7 +104,7 @@ app.router.put(
 #### Directly define middleware/controller functions
 
 ```js
-routes: {
+{
   'DELETE /user': async ctx => {
     await deleteUser(ctx.params.id)
     ctx.body = 'deleted'
@@ -118,25 +117,12 @@ routes: {
 }
 ```
 
-## defineRouter({routes, middlewareRoot})
-## defineRouter({routes, middlewareRoot}, factory)
+## defineRouter(routes, {middlewareRoot})
 
 - **routes** `Routes`
 - **middlewareRoot** `path` The search path for middleware name.
-- **factory** `?Function(app, applyRoutes)` helps to determine when and where to apply the routes. It is usefull to do extra things more than `routes`
-  - **applyRoutes** `Function(app)`
 
 Creates the router function which accept one argument `app`.
-
-The default `factory` is equivalent to:
-
-```js
-(app, applyRoutes) => {
-  // You can do something ahead of `applyRoutes(app)`
-  applyRoutes(app)
-  // Then do something else
-}
-```
 
 ### `routes`
 
