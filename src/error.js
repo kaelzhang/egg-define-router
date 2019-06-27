@@ -1,17 +1,13 @@
 const util = require('util')
 const {Errors} = require('err-object')
 
-const {E, error} = new Errors()
+const {E, TE, error} = new Errors()
 
-E('INVALID_MIDDLEWARE_ROOT', {
-  ctor: TypeError,
-  message: 'middlewareRoot must be a path string'
-})
+TE('INVALID_MIDDLEWARE_ROOT', 'middlewareRoot must be a path string')
 
-E('INVALID_ROUTES', {
-  ctor: TypeError,
-  message: 'routes must be an object'
-})
+TE('INVALID_ROUTES', 'routes must be an object')
+
+TE('INVALID_ROUTE', 'route must be one of function, string or array')
 
 E('CONTROLLER_NOT_FOUND', 'controller "%s" not found')
 

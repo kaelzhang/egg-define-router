@@ -1,11 +1,11 @@
 const path = require('path')
 const access = require('object-access')
-const forEach = require('lodash.foreach')
+const {isArray, isFunction, isString} = require('core-util-is')
 
 const error = require('./error')
 
 const getController = (eggController, name) => {
-  if (typeof name === 'function') {
+  if (isFunction(name)) {
     return name
   }
 
@@ -20,12 +20,12 @@ const getController = (eggController, name) => {
 const DELIMITER_MIDDLEWARE_PATH = '/'
 
 const getMiddleware = (name, root) => {
-  if (typeof name === 'function') {
+  if (isFunction(name)) {
     return name
   }
 
-  if (typeof root !== 'string') {
-    throw error('INVALID_MIDDLEWARE_ROOT')
+  if (!isString(root)) {
+    throw error('INVALID_MIDDLEWARE_ROOT', root)
   }
 
   const filepath = path.join(root, ...name.split(DELIMITER_MIDDLEWARE_PATH))
@@ -41,7 +41,7 @@ module.exports = (routes = {}, {
   middlewareRoot
 } = {}) => {
   if (Object(routes) !== routes) {
-    throw error('INVALID_ROUTES')
+    throw error('INVALID_ROUTES', routes)
   }
 
   return ({
@@ -50,40 +50,44 @@ module.exports = (routes = {}, {
   }) => {
     const getMW = name => getMiddleware(name, middlewareRoot)
 
-    forEach(routes, (
-      route,
+    for (const [
       // 'DELETE /foo'
       // 'GET /foo'
       // '/foo'
-      key
-    ) => {
+      key,
+      route
+    ] of Object.entries(routes)) {
       const splitted = key.split(/\s+/)
       const [method, p] = splitted.length === 1
         ? ['GET', key]
         : splitted
 
-      if (typeof route === 'string') {
-        route = {controller: route}
-      } else if (Array.isArray(route)) {
+      let r
+
+      if (isString(route) || isFunction(route)) {
+        r = {controller: route}
+      } else if (isArray(route)) {
         const sliced = route.slice()
         const controller = sliced.pop()
         const middlewares = sliced
-        route = {
+        r = {
           middlewares,
           controller
         }
+      } else {
+        throw error('INVALID_ROUTE', route)
       }
 
       const {
         middlewares = [],
         controller
-      } = route
+      } = r
 
       router[method.toLowerCase()](
         p,
         ...middlewares.map(getMW),
         getController(eggController, controller)
       )
-    })
+    }
   }
 }
